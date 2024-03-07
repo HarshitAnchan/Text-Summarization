@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Summarization</title>
+    <link rel="icon" type="image/x-icon" href="/static/logo.png">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/static/css/jquery-ui.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #fff;
+        }
+
+        .header {
+            background-color: #004A56;
+        }
+
+        textarea {
+            background-color: #2d2d2d;
+            color: #fff;
+        }
+
+        /* Styled Range Input */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 10px;
+            cursor: pointer;
+            background: #ccc;
+            border-radius: 5px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            border: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -5px;
+        }
+
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="fixed inset-0 w-full flex justify-center items-center h-20 rounded-b-lg header">
+        <!-- <img src="/static/images/SynopserLogo.png" alt="Logo" class="object-contain w-16 self-center md:self-left md:w-30"> -->
+        <div class="self-center text-white text-2xl md:text-3xl ml-4">Text Summarization</div>
+    </header>
+
+    <section class="flex flex-wrap mt-20 w-full">
+        <div class="w-full md:w-1/2">
+            <form class="w-full flex flex-col md:h-screen" action="{{url_for('Summarize')}}" method="post">
+                <textarea class="w-11/12 md:h-3/4 m-2 p-2 border-black rounded-lg border self-center justify-center"
+                    name="data" id="data" cols="30" rows="10" placeholder="Enter your Data" required="required"></textarea>
+                <div class="flex self-center items-center mt-4">
+                    <h3 class="mr-2">Summary Length</h3>
+                    <input type="range" class="m-2" min="20" max="1000" name="maxL">
+                </div>
+                <div class="flex self-center mt-4">
+                    <button class="m-1 bg-green-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
+                        type="submit">Submit</button>
+                    <button class="m-1 bg-red-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
+                        type="reset">Clear</button>
+                </div>
+            </form>
+        </div>
+        <div class="w-full md:w-1/2">
+            <div class="mt-2 flex flex-col w-full md:h-screen">
+                <textarea class="w-11/12 border-green-600 rounded-lg p-2 border self-center justify-center md:h-3/4"
+                    rows="10" cols="30" name="result" readonly placeholder="Your Summary">{{result}}</textarea>
+                <button class="m-2 bg-blue-400 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg self-center"
+                    onclick="myFunction()">Copy Text</button>
+            </div>
+        </div>
+    </section>
+    <script>
+        function myFunction() {
+            var copyText = document.querySelector("textarea[name=result]");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            copyText.value = ''; // Clear the textarea after copying
+        }
+    </script>
+    
+    
+    <script>
+        function Check() {
+            var reg = /<(.|\n)*>/g;
+            if (reg.test(document.getElementById("data").value) == true) {
+                var ErrorText = 'Make Sure You Provide Valid Data.';
+                alert('Error Text');
+            }
+        }
+    </script>
+
+    
+</body>
+
+</html>
